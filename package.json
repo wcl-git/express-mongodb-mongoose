@@ -1,0 +1,38 @@
+{
+  "name": "express-mongodb-mongoose",
+  "version": "1.0.0",
+  "description": "后台服务项目",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --watch server/api server/api/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wcl-git/express-mongodb-mongoose.git"
+  },
+  "author": "wuchunlei",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wcl-git/express-mongodb-mongoose/issues"
+  },
+  "homepage": "https://github.com/wcl-git/express-mongodb-mongoose#readme",
+  "dependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-es2015": "^7.0.0-beta.53",
+    "@babel/preset-stage-0": "^7.0.0",
+    "@babel/register": "^7.6.0",
+    "@babel/runtime": "^7.6.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "bluebird": "^3.5.5",
+    "cookie-parser": "^1.4.4",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "mongoose": "^5.7.0",
+    "nodemon": "^1.19.2"
+  }
+}
