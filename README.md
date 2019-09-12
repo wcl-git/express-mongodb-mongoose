@@ -306,13 +306,13 @@ npm start
 多几个页面，无非就是对几个接口文件，和数据 model。接口路由和前端页面路由相似，好理解。
 
 ### 还有也个问题，前端项目怎么设置才会访问这个项目的接口呢？
-其实简单，之前 config.js里面已经有前端端口的设置，把端口和你启动的项目端口对应，
+其实简单，之前 config.js里面已经有前端端口的设置，把端口和你启动的项目端口对应， 假定 以 /api 开头
 有两个npm 包  http-proxy-middleware 和 http-proxy。两个没蛇么区别， http-proxy-middleware是基于 http-proxy优化的。用那也个都行
 如果你使用的是 webpack 的 devServer 则不用上面的包，
 直接配置 devServer 的 proxy
 ```
 proxy: {
-  '/api/*': {
+  '/api': {
     target: 'http://localhost:3030',  // 因为我启动的后台是3030端口，请看config.js里面配置
   }
 }
