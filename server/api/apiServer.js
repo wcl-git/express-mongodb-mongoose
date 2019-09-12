@@ -18,9 +18,9 @@ import session from 'express-session'
 const port = config.apiPort;
 
 const app = new Express();
-app.use(bodyParser.urlencoded({extended: false}));   // 解析 application/x-www-form-urlencoded
+// app.use(bodyParser.urlencoded({extended: false}));   // 解析 application/x-www-form-urlencoded, 这个参数和值都要encodeURIComponent
 
-// app.use(bodyParser.json());  // 解析 application/json
+app.use(bodyParser.json());  // 解析 application/json
 app.use(cookieParser('express_react_cookie'));
 app.use(session({
     secret:'express_react_cookie',
@@ -29,11 +29,8 @@ app.use(session({
     cookie: {maxAge: 60 * 1000 * 30}//过期时间
 }));
 
-// 展示页面路由
-// app.use('/', require('./main'));
+// 登录注册页面路由
 app.use('/user', require('./user'));
-// 管理页面路由
-// app.use('/admin', require('./admin'));
 
 mongoose.Promise = require('bluebird');
 mongoose.connect(`mongodb://${config.dbHost}:${config.dbPort}/blog`, function (err) {
