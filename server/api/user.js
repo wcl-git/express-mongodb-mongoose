@@ -1,13 +1,13 @@
+import fs from 'fs';
 import Express from 'express'
 const router = Express.Router();
 import User from '../../models/user'
 import {MD5_SUFFIX,responseClient,md5} from '../util'
 
+
 /**
  *定义回复模板
  */
-
-
 router.post('/login', (req, res) => {
     let {username, password} = req.body;
     if (!username) {
@@ -40,6 +40,7 @@ router.post('/login', (req, res) => {
         responseClient(res);
     })
 });
+
 
 
 router.post('/register', (req, res) => {
@@ -79,6 +80,12 @@ router.post('/register', (req, res) => {
                             data.userType = userInfo.type;
                             data.userId = userInfo._id;
                             responseClient(res, 200, 0, '注册成功', data);
+                            const normalStr = JSON.stringify(data, null, 2).replace(/"(\w+)"(\s*:\s*)/g, "$1$2");
+                            const objstr = `const userSchema =  new mongoose.Schema(${normalStr});`
+                            fs.writeFile('./schemas/demo1.js', objstr, (err, data) => {
+                              console.log(err);
+                              console.log(data)
+                            });
                             return;
                         });
                 })
