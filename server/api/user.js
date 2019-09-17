@@ -60,38 +60,39 @@ router.post('/register', (req, res) => {
     //验证用户是否已经在数据库中
 
     User.findOne({username: userName})
-        .then(data => {
-            if (data) {
-                responseClient(res, 200, 1, '用户名已存在');
+      .then(data => {
+        if (data) {
+          responseClient(res, 200, 1, '用户名已存在');
+          return;
+        }
+        //保存到数据库
+        let user = new User({
+            username: userName,
+            password: md5(password + MD5_SUFFIX), 
+            type: 'user'
+        });
+        user.save()
+          .then(function () {
+            User.findOne({username: userName})
+              .then(userInfo=>{
+                let data = {};
+                data.username = userInfo.username;
+                data.userType = userInfo.type;
+                data.userId = userInfo._id;
+                responseClient(res, 200, 0, '注册成功', data);
+                // 这里将前端传入的数据,尝试文件写入
+                const normalStr = JSON.stringify(data, null, 2).replace(/"(\w+)"(\s*:\s*)/g, "$1$2");
+                const objstr = `const userSchema =  new mongoose.Schema(${normalStr});`
+                fs.writeFile('./schemas/demo1.js', objstr, (err, data) => {
+                  console.log(err);
+                  console.log(data)
+                });
                 return;
-            }
-            //保存到数据库
-            let user = new User({
-                username: userName,
-                password: md5(password + MD5_SUFFIX),
-                type: 'user'
-            });
-            user.save()
-                .then(function () {
-                    User.findOne({username: userName})
-                        .then(userInfo=>{
-                            let data = {};
-                            data.username = userInfo.username;
-                            data.userType = userInfo.type;
-                            data.userId = userInfo._id;
-                            responseClient(res, 200, 0, '注册成功', data);
-                            const normalStr = JSON.stringify(data, null, 2).replace(/"(\w+)"(\s*:\s*)/g, "$1$2");
-                            const objstr = `const userSchema =  new mongoose.Schema(${normalStr});`
-                            fs.writeFile('./schemas/demo1.js', objstr, (err, data) => {
-                              console.log(err);
-                              console.log(data)
-                            });
-                            return;
-                        });
-                })
-        }).catch(err => {
-        responseClient(res);
-        return;
+              });
+          })
+      }).catch(err => {
+      responseClient(res);
+      return;
     });
 });
 
